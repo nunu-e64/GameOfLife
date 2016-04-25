@@ -85,6 +85,9 @@ bool HelloWorld::init()
     }
     
     auto rootNode = CSLoader::createNode("MainScene.csb");
+    Size size = Director::getInstance()->getVisibleSize();
+    rootNode->setContentSize(size);
+    ui::Helper::doLayout(rootNode);
 
     addChild(rootNode);
 
