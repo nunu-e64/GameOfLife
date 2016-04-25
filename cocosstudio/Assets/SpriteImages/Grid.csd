@@ -3,7 +3,7 @@
   <Content ctype="GameProjectContent">
     <Content>
       <Animation Duration="0" Speed="1.0000" />
-      <ObjectData Name="Node" Tag="8" ctype="GameNodeObjectData">
+      <ObjectData Name="Node" CustomClassName="Grid" Tag="8" ctype="GameNodeObjectData">
         <Size X="0.0000" Y="0.0000" />
         <Children>
           <AbstractNodeData Name="grid" ActionTag="-2092593894" Tag="9" IconVisible="False" PositionPercentXEnabled="True" PositionPercentYEnabled="True" LeftMargin="-380.0000" RightMargin="-380.0000" TopMargin="-307.0000" BottomMargin="-307.0000" ctype="SpriteObjectData">

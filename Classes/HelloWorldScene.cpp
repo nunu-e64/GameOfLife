@@ -1,6 +1,7 @@
 #include "HelloWorldScene.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
+#include "GridReader.hpp"
 
 USING_NS_CC;
 
@@ -84,10 +85,16 @@ bool HelloWorld::init()
         return false;
     }
     
+    CSLoader* instance = CSLoader::getInstance();
+    // Be very careful to do GridReader::getInstance, not GridReader::getInstance() which will crash
+    instance->registReaderObject("GridReader", (ObjectFactory::Instance) GridReader::getInstance);
+    
     auto rootNode = CSLoader::createNode("MainScene.csb");
     Size size = Director::getInstance()->getVisibleSize();
     rootNode->setContentSize(size);
     ui::Helper::doLayout(rootNode);
+    
+    
 
     addChild(rootNode);
 

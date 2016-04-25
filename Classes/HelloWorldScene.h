@@ -2,6 +2,8 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
+#include "Grid.hpp"
 
 class HelloWorld : public cocos2d::Layer
 {
@@ -14,6 +16,14 @@ public:
 
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+private:
+    Grid* grid;
+    cocos2d::ui::Text* populationCount;
+    cocos2d::ui::Text* generationCount;
+    
+    void play(Ref* pSender, cocos2d::ui::Widget::TouchEventType type);
+    void pause(Ref* pSender, cocos2d::ui::Widget::TouchEventType type);
+    void step(float dt);
 };
 
 #endif // __HELLOWORLD_SCENE_H__
