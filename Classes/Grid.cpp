@@ -110,3 +110,88 @@ int Grid::indexForRowColumn(int row, int col)
 {
     return row * COLUMNS + col;
 }
+
+int Grid::getPopulationCount()
+{
+    return populationCount;
+}
+
+int Grid::getGenerationCount()
+{
+    return generationCount;
+}
+
+void Grid::evolveStep()
+{
+    //各クリーチャーについて隣接しているセルの数を更新する
+    this->updateNeighborCount();
+    
+    //各クリーチャーの状態を更新する
+    this->updateCreatures();
+    
+    //ラベルのテキストが正しい世代を示すように世代の値を更新する
+    generationCount++;
+}
+
+void Grid::updateNeighborCount()
+{
+    for (int row = 0; row < ROWS; ++row)
+    {
+        for (int col = 0; col < COLUMNS; ++col)
+        {
+            int currentCreatureIndex = this->indexForRowColumn(row, col);
+            
+            Creature* currentCreature = gridArray.at(currentCreatureIndex);
+            currentCreature->setLivingNeighborsCount(0);
+            
+            for (int nRow = row - 1; nRow <= row + 1; ++nRow)
+            {
+                for (int nCol = col - 1; nCol <= col + 1; ++nCol)
+                {
+                    bool indexValid = this->isValidIndex(nRow, nCol);
+                    
+                    if (indexValid && !(nRow == row && nCol == col))
+                    {
+                        int neighborIndex = this->indexForRowColumn(nRow, nCol);
+                        Creature* neighbor = gridArray.at(neighborIndex);
+                        
+                        if (neighbor->getIsAlive())
+                        {
+                            int livingNeighbors = currentCreature->getLivingNeighborsCount();
+                            currentCreature->setLivingNeighborsCount(livingNeighbors + 1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Grid::updateCreatures()
+{
+    populationCount = 0;
+    for (int row = 0; row < ROWS; ++row)
+    {
+        for (int col = 0; col < COLUMNS; ++col)
+        {
+            int currentCreatureIndex = this->indexForRowColumn(row, col);
+            
+            Creature* currentCreature = gridArray.at(currentCreatureIndex);
+            int livingNeighbors = currentCreature->getLivingNeighborsCount();
+            
+            if (livingNeighbors == 3)
+            {
+                currentCreature->setIsAlive(true);
+            } else if (livingNeighbors != 2)
+            {
+                currentCreature->setIsAlive(false);
+            }
+            
+            if (currentCreature->getIsAlive())
+            {
+                ++populationCount;
+            }
+        }
+    }
+    
+}

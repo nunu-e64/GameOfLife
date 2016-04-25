@@ -94,9 +94,40 @@ bool HelloWorld::init()
     rootNode->setContentSize(size);
     ui::Helper::doLayout(rootNode);
     
+    auto leftPanel = rootNode->getChildByName("leftPanel");
+    auto rightPanel = rootNode->getChildByName("rightPanel");
     
+    grid = rightPanel->getChildByName<Grid*>("gridNode");
+    
+    auto balloon = leftPanel->getChildByName("balloon");
+    generationCount = balloon->getChildByName<cocos2d::ui::Text*>("generationCount");
+    populationCount = balloon->getChildByName<cocos2d::ui::Text*>("populationCount");
+    
+    cocos2d::ui::Button* playButton = leftPanel->getChildByName<cocos2d::ui::Button*>("btnPlay");
+    cocos2d::ui::Button* pauseButton = leftPanel->getChildByName<cocos2d::ui::Button*>("btnPause");
+    
+    playButton->addTouchEventListener(CC_CALLBACK_2(HelloWorld::play, this));
+    pauseButton->addTouchEventListener(CC_CALLBACK_2(HelloWorld::pause, this));
 
     addChild(rootNode);
 
     return true;
+}
+
+void HelloWorld::play(Ref* pSender, ui::Widget::TouchEventType type)
+{
+    this->schedule(CC_SCHEDULE_SELECTOR(HelloWorld::step), 0.5f);
+}
+
+void HelloWorld::pause(Ref* pSender, ui::Widget::TouchEventType type)
+{
+    this->unschedule(CC_SCHEDULE_SELECTOR(HelloWorld::step));
+}
+
+void HelloWorld::step(float dt)
+{
+    grid->evolveStep();
+    
+    generationCount->setString(std::to_string(grid->getGenerationCount()));
+    populationCount->setString(std::to_string(grid->getPopulationCount()));
 }
