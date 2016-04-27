@@ -41,5 +41,7 @@ protected:
     Creature* creatureForTouchLocation(cocos2d::Vec2 touchLocation);
     bool isValidIndex(int row, int col);
     int indexForRowColumn(int row, int col);
+    
+    bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 };
 #endif /* Grid_hpp */

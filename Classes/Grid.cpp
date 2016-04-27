@@ -62,23 +62,26 @@ void Grid::setupTouchHandling()
 {
     auto touchListener = EventListenerTouchOneByOne::create();
     
-    touchListener->onTouchBegan = [&](Touch* touch, Event* event)
-    {
-        Sprite* gridSprite = this->getChildByName<Sprite*>("grid");
-        
-        Vec2 gridTouchLocation = gridSprite->convertTouchToNodeSpace(touch);
-        
-        Creature* touchedCreature = this->creatureForTouchLocation(gridTouchLocation);
-        
-        if (touchedCreature)
-        {
-            touchedCreature->setIsAlive(!touchedCreature->getIsAlive());
-        }
-        
-        return true;
-    };
+    touchListener->onTouchBegan = CC_CALLBACK_2(Grid::onTouchBegan, this);
     
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
+}
+
+bool Grid::onTouchBegan(Touch* touch, Event* event)
+{
+    Sprite* gridSprite = this->getChildByName<Sprite*>("grid");
+    
+    Vec2 gridTouchLocation = gridSprite->convertTouchToNodeSpace(touch);
+    
+    Creature* touchedCreature = this->creatureForTouchLocation(gridTouchLocation);
+    
+    if (touchedCreature)
+    {
+        touchedCreature->setIsAlive(!touchedCreature->getIsAlive());
+    }
+    
+    return true;
+    
 }
 
 Creature* Grid::creatureForTouchLocation(Vec2 touchLocation)
