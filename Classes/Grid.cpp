@@ -62,7 +62,7 @@ void Grid::setupTouchHandling()
 {
     auto touchListener = EventListenerTouchOneByOne::create();
     
-    touchListener->onTouchBegan = CC_CALLBACK_2(Grid::onTouchBegan, this);
+    touchListener->onTouchBegan = CC_CALLBACK_2(Grid::onTouchBegan, this);
     
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
